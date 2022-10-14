@@ -31,7 +31,7 @@ async def _(matcher: Matcher, event: GroupMessageEvent, command=RawCommand(), ar
 
 	# 判断用户是否触发频率限制
 	user_id = event.user_id
-	managers = config.wenxin_manager_list  # 管理员列表(不触发冷却时间限制)
+	managers = config.manager_list  # 管理员列表(不触发冷却时间限制)
 	if not limiter.check(user_id):
 		left_time = limiter.left_time(user_id)
 		await matcher.finish(f"不可以哦，你刚画了一次哎，需要等待{int(left_time)}秒再找俺画画！")
