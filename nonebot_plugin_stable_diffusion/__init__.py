@@ -12,7 +12,7 @@
 import httpx
 from nonebot import logger
 from nonebot import on_command
-from nonebot.adapters.onebot.v11 import GroupMessageEvent, Message, MessageSegment
+from nonebot.adapters.onebot.v11 import MessageEvent, Message, MessageSegment
 from nonebot.matcher import Matcher
 from nonebot.params import CommandArg, RawCommand
 
@@ -23,7 +23,7 @@ drawer = on_command("画画", aliases={"画画帮助", "油画", "卡通画", "�
 
 
 @drawer.handle()
-async def _(matcher: Matcher, event: GroupMessageEvent, command=RawCommand(), args=CommandArg()):
+async def _(matcher: Matcher, event: MessageEvent, command=RawCommand(), args=CommandArg()):
 	# 判断是否触发帮助 或 绘画主题任务描述为空
 	if command == "画画帮助" or str(args).strip() == '':
 		help_msg = "发送：/画画 二次元，中国女孩，唯美，烟火，棕红色长发，金色眼睛，洛丽塔风格，精致面容，毛发细致，cg感，高清，8k，浪漫主义"
@@ -47,9 +47,11 @@ async def _(matcher: Matcher, event: GroupMessageEvent, command=RawCommand(), ar
 		url = "http://123.125.8.44:18080/predictions/stable_diffusion"
 		payload = {"q": text}
 		async with httpx.AsyncClient(verify=False, timeout=None) as client:
-			resp = await client.post(url, data=payload)
-			msg = Message(f"小麦原创绘画：主题为“{text}”的作品")
+			resp = await client.post(url, json=payload)
+			logger.info(f"resp: {resp.content}")
+			msg = Message(f"小麦原创绘画：主题为的作品")
 			msg += MessageSegment.image(resp.content.decode())
+			logger.info(f"msg: {msg}")
 			await matcher.finish(msg)
 	except Exception as e:
 		logger.error(f"error: {e}")
