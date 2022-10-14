@@ -53,4 +53,3 @@ async def _(matcher: Matcher, event: MessageEvent, command=RawCommand(), args=Co
 			await matcher.finish(msg)
 	except Exception as e:
 		logger.error(f"error: {e}")
-		await matcher.finish(f"55555，江郎才尽了，画不出来了。（骗你的，报错了，请联系管理员（2426671397）处理。）")
