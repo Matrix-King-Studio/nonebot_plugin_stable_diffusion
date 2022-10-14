@@ -45,13 +45,11 @@ async def _(matcher: Matcher, event: MessageEvent, command=RawCommand(), args=Co
 			limiter.start_cd(user_id)  # 启动冷却时间限制
 
 		url = "http://123.125.8.44:18080/predictions/stable_diffusion"
-		payload = {"q": text}
+		payload = {"q": str(text)}
 		async with httpx.AsyncClient(verify=False, timeout=None) as client:
 			resp = await client.post(url, json=payload)
-			logger.info(f"resp: {resp.content}")
-			msg = Message(f"小麦原创绘画：主题为的作品")
+			msg = Message(f"小麦原创绘画：主题为“{str(text)}”的作品")
 			msg += MessageSegment.image(resp.content.decode())
-			logger.info(f"msg: {msg}")
 			await matcher.finish(msg)
 	except Exception as e:
 		logger.error(f"error: {e}")
