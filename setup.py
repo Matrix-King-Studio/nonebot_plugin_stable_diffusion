@@ -16,7 +16,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="nonebot_plugin_stable_diffusion",
-    version="0.0.1",
+    version="0.0.2",
     author="alex",
     author_email="liu_zhao_feng_alex@163.com",
     description="nonebot_plugin_stable_diffusion",
@@ -38,5 +38,6 @@ setuptools.setup(
     install_requires=[
         "nonebot2>=2.0.0-beta.2",
         "nonebot-adapter-onebot",
-        "httpx>=0.23.0"]
+        "httpx>=0.23.0"
+    ]
 )
