@@ -9,6 +9,7 @@
 # >>> Github    : https://github.com/koking0
 # >>> Blog      : https://alex007.blog.csdn.net/
 # ☆ ☆ ☆ ☆ ☆ ☆ ☆
+import httpx
 from nonebot import logger
 from nonebot import on_command
 from nonebot.adapters.onebot.v11 import GroupMessageEvent, Message, MessageSegment
@@ -16,10 +17,9 @@ from nonebot.matcher import Matcher
 from nonebot.params import CommandArg, RawCommand
 
 from .config import config
-from .drawer import drawer_task
 from .limiter import limiter
 
-drawer = on_command("画画", aliases={"画画帮助"}, priority=5, block=True)
+drawer = on_command("画画", aliases={"画画帮助", "油画", "卡通画", "二次元"}, priority=5, block=True)
 
 
 @drawer.handle()
@@ -41,14 +41,16 @@ async def _(matcher: Matcher, event: GroupMessageEvent, command=RawCommand(), ar
 	await matcher.send(f"小麦绘制内容为“{text}”的作品（预计1-2分钟）...")
 
 	try:
-		img_url = await drawer_task(text)
-
 		if not str(user_id) in managers:
 			limiter.start_cd(user_id)  # 启动冷却时间限制
 
-		msg = Message(f"小麦原创绘画：主题为“{text}”的作品")
-		msg += MessageSegment.image(img_url)
-		await matcher.finish(msg)
+		url = "http://123.125.8.44:18080/predictions/stable_diffusion"
+		payload = {"q": text}
+		async with httpx.AsyncClient(verify=False, timeout=None) as client:
+			resp = await client.post(url, data=payload)
+			msg = Message(f"小麦原创绘画：主题为“{text}”的作品")
+			msg += MessageSegment.image(resp.content.decode())
+			await matcher.finish(msg)
 	except Exception as e:
 		logger.error(f"error: {e}")
 		await matcher.finish(f"55555，江郎才尽了，画不出来了。（骗你的，报错了，请联系管理员（2426671397）处理。）")
