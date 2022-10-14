@@ -52,4 +52,4 @@ async def _(matcher: Matcher, event: MessageEvent, command=RawCommand(), args=Co
 			msg += MessageSegment.image(resp.content.decode())
 			await matcher.finish(msg)
 	except Exception as e:
-		logger.error(f"error: {e}")
+		print(e)
