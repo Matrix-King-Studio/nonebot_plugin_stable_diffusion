@@ -49,7 +49,8 @@ async def _(matcher: Matcher, event: MessageEvent, command=RawCommand(), args=Co
 		async with httpx.AsyncClient(verify=False, timeout=None) as client:
 			resp = await client.post(url, json=payload)
 			msg = Message(f"小麦原创绘画：主题为“{str(text)}”的作品")
-			msg += MessageSegment.image(resp.content.decode())
+			await matcher.send(msg)
+			msg = MessageSegment.image(resp.content.decode())
 			await matcher.finish(msg)
 	except Exception as e:
 		print(e)
