@@ -48,9 +48,9 @@ async def _(matcher: Matcher, event: MessageEvent, command=RawCommand(), args=Co
 		payload = {"q": str(text)}
 		async with httpx.AsyncClient(verify=False, timeout=None) as client:
 			resp = await client.post(url, json=payload)
-			msg = Message(f"小麦原创绘画：主题为“{str(text)}”的作品")
-			await matcher.send(msg)
-			msg = MessageSegment.image(resp.content.decode())
-			await matcher.finish(msg)
+			msg_1 = Message(f"小麦原创绘画：主题为“{str(text)}”的作品")
+			msg_2 = MessageSegment.image(resp.content.decode())
+			await matcher.send(msg_1)
+			await matcher.finish(msg_2)
 	except Exception as e:
 		print(e)
