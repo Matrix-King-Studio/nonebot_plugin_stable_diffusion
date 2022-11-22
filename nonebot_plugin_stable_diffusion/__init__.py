@@ -10,6 +10,7 @@
 # >>> Blog      : https://alex007.blog.csdn.net/
 # ☆ ☆ ☆ ☆ ☆ ☆ ☆
 import httpx
+from nonebot import logger
 from nonebot import on_command
 from nonebot.adapters.onebot.v11 import MessageEvent, Message, MessageSegment
 from nonebot.matcher import Matcher

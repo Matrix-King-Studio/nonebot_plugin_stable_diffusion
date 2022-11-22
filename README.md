@@ -12,7 +12,7 @@
 
 ## 📖 介绍
 
-接入Stable Diffusion做群AI文生图。
+接入Stable Diffusion做AI文生图。
 
 ## 💿 安装
 
