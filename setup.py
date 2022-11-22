@@ -16,7 +16,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="nonebot_plugin_stable_diffusion",
-    version="0.0.7",
+    version="0.0.8",
     author="alex",
     author_email="liu_zhao_feng_alex@163.com",
     description="nonebot_plugin_stable_diffusion",

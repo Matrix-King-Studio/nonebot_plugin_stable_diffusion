@@ -10,7 +10,6 @@
 # >>> Blog      : https://alex007.blog.csdn.net/
 # ☆ ☆ ☆ ☆ ☆ ☆ ☆
 import httpx
-from nonebot import logger
 from nonebot import on_command
 from nonebot.adapters.onebot.v11 import MessageEvent, Message, MessageSegment
 from nonebot.matcher import Matcher
@@ -49,7 +48,8 @@ async def _(matcher: Matcher, event: MessageEvent, command=RawCommand(), args=Co
 		async with httpx.AsyncClient(verify=False, timeout=None) as client:
 			resp = await client.post(url, json=payload)
 			msg = Message(f"小麦原创绘画：主题为“{str(text)}”的作品")
-			msg += MessageSegment.image(resp.content.decode())
+			for url in resp.json():
+				msg += MessageSegment(f"[CQ:image,url={url}]")
 			await matcher.finish(msg)
 	except Exception as e:
 		print(e)
