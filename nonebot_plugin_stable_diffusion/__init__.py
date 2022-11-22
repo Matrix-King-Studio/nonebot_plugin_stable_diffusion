@@ -10,6 +10,7 @@
 # >>> Blog      : https://alex007.blog.csdn.net/
 # ☆ ☆ ☆ ☆ ☆ ☆ ☆
 import httpx
+import requests
 from nonebot import logger
 from nonebot import on_command
 from nonebot.adapters.onebot.v11 import MessageEvent, Message, MessageSegment
@@ -51,7 +52,7 @@ async def _(matcher: Matcher, event: MessageEvent, command=RawCommand(), args=Co
 			logger.info(f"resp: {resp}")
 			msg = Message(f"小麦原创绘画：主题为“{str(text)}”的作品")
 			for url in resp.json():
-				msg += MessageSegment.image(f"[CQ:image,url={url}]")
+				msg += MessageSegment.image(requests.get(url).content)
 			logger.info(f"msg: {msg}")
 			await matcher.finish(msg)
 	except Exception as e:
