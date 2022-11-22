@@ -51,7 +51,7 @@ async def _(matcher: Matcher, event: MessageEvent, command=RawCommand(), args=Co
 			logger.info(f"resp: {resp}")
 			msg = Message(f"小麦原创绘画：主题为“{str(text)}”的作品")
 			for url in resp.json():
-				msg += MessageSegment(f"[CQ:image,url={url}]")
+				msg += MessageSegment.image(f"[CQ:image,url={url}]")
 			logger.info(f"msg: {msg}")
 			await matcher.finish(msg)
 	except Exception as e:
